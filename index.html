@@ -312,7 +312,15 @@
         }
 
         .drop-box input[type="file"] {
-            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+            z-index: 10;
+            display: block;
         }
 
         .drop-box-title {
@@ -411,7 +419,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 400px;
+            height: 100%;
             z-index: 1;
             overflow: hidden;
         }
@@ -747,7 +755,7 @@
 
                 <div class="field-box">
                     <label class="field-label" for="inp-file-hero">Foto Utama (Fasad Depan Rumah)</label>
-                    <div class="drop-box" onclick="document.getElementById('inp-file-hero').click()">
+                    <div class="drop-box">
                         <input type="file" id="inp-file-hero" accept="image/png, image/jpeg, image/jpg, image/webp" onchange="uploadImage(event, 'hero')">
                         <div class="drop-box-title">📷 Klik untuk Buka Galeri HP / File</div>
                         <div class="drop-box-hint">Pilih dari Galeri atau Kamera</div>
@@ -757,17 +765,17 @@
                 <div class="field-box">
                     <label class="field-label">3 Foto Fasilitas (Panel Kanan Vertikal)</label>
                     <div class="form-row-3">
-                        <div class="drop-box" onclick="document.getElementById('inp-file-thumb1').click()">
+                        <div class="drop-box">
                             <input type="file" id="inp-file-thumb1" accept="image/png, image/jpeg, image/jpg, image/webp" onchange="uploadImage(event, 'thumb1')">
                             <div class="drop-box-title">Foto 1</div>
                             <div class="drop-box-hint">Galeri HP</div>
                         </div>
-                        <div class="drop-box" onclick="document.getElementById('inp-file-thumb2').click()">
+                        <div class="drop-box">
                             <input type="file" id="inp-file-thumb2" accept="image/png, image/jpeg, image/jpg, image/webp" onchange="uploadImage(event, 'thumb2')">
                             <div class="drop-box-title">Foto 2</div>
                             <div class="drop-box-hint">Galeri HP</div>
                         </div>
-                        <div class="drop-box" onclick="document.getElementById('inp-file-thumb3').click()">
+                        <div class="drop-box">
                             <input type="file" id="inp-file-thumb3" accept="image/png, image/jpeg, image/jpg, image/webp" onchange="uploadImage(event, 'thumb3')">
                             <div class="drop-box-title">Foto 3</div>
                             <div class="drop-box-hint">Galeri HP</div>
@@ -796,6 +804,17 @@
                             <div class="swatch" style="background: #1e1e1e;" title="Vercel Obsidian" onclick="setThemeColor('#141414', '#262626')"></div>
                             <div class="swatch" style="background: #78350f;" title="Warm Bronze" onclick="setThemeColor('#78350f', '#92400e')"></div>
                         </div>
+                    </div>
+                </div>
+
+                <div class="form-row-2">
+                    <div class="field-box">
+                        <label class="field-label" for="inp-opacity-panel">Transparansi / Opacity Frame Bawah: <span id="label-opacity-panel">100%</span></label>
+                        <input type="range" id="inp-opacity-panel" class="field-input" min="50" max="100" value="100" oninput="updatePanelOpacity(this.value)" style="accent-color: #2e7d64; padding: 4px 0; cursor: pointer;">
+                    </div>
+                    <div class="field-box">
+                        <label class="field-label" for="inp-opacity-gallery">Transparansi Frame Galeri Kanan: <span id="label-opacity-gallery">25%</span></label>
+                        <input type="range" id="inp-opacity-gallery" class="field-input" min="10" max="100" value="25" oninput="updateGalleryOpacity(this.value)" style="accent-color: #2e7d64; padding: 4px 0; cursor: pointer;">
                     </div>
                 </div>
 
@@ -1003,12 +1022,56 @@
             document.getElementById('canvas-phone2').innerText = document.getElementById('inp-phone2').value;
         }
 
+        // Opacity Frame Controls
+        function hexToRgb(hex) {
+            let c = hex.replace('#', '');
+            if (c.length === 3) {
+                c = c.split('').map(x => x + x).join('');
+            }
+            const num = parseInt(c, 16);
+            return {
+                r: (num >> 16) & 255,
+                g: (num >> 8) & 255,
+                b: num & 255
+            };
+        }
+
+        let currentPrimaryHex = '#1b4d3e';
+
+        function updatePanelOpacity(val) {
+            document.getElementById('label-opacity-panel').innerText = val + '%';
+            const alpha = (parseInt(val, 10) / 100).toFixed(2);
+            const rgb = hexToRgb(currentPrimaryHex);
+            const panel = document.getElementById('canvas-bottom-panel');
+            const wave = document.getElementById('canvas-wave-path');
+            if (panel) {
+                panel.style.background = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${alpha})`;
+                panel.style.backdropFilter = `blur(${Math.round((1 - alpha) * 20)}px)`;
+            }
+            if (wave) {
+                wave.setAttribute('fill', `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${alpha})`);
+            }
+        }
+
+        function updateGalleryOpacity(val) {
+            document.getElementById('label-opacity-gallery').innerText = val + '%';
+            const alpha = (parseInt(val, 10) / 100).toFixed(2);
+            const strip = document.querySelector('.flyer-gallery-strip');
+            if (strip) {
+                strip.style.background = `rgba(255, 255, 255, ${alpha})`;
+            }
+        }
+
         // Color Theme Changer
         function setThemeColor(primaryHex, accentHex) {
+            currentPrimaryHex = primaryHex;
             document.documentElement.style.setProperty('--brand-primary', primaryHex);
             document.documentElement.style.setProperty('--brand-accent', accentHex);
-            document.getElementById('canvas-bottom-panel').style.background = primaryHex;
-            document.getElementById('canvas-wave-path').setAttribute('fill', primaryHex);
+            
+            // Respect current opacity slider
+            const opVal = document.getElementById('inp-opacity-panel') ? document.getElementById('inp-opacity-panel').value : '100';
+            updatePanelOpacity(opVal);
+
             document.getElementById('canvas-gem').style.background = primaryHex;
             document.getElementById('canvas-badge-price').style.color = primaryHex;
             document.getElementById('canvas-badge-loc').style.color = primaryHex;
@@ -1019,7 +1082,9 @@
 
             // Update active swatch
             document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
-            event.target.classList.add('active');
+            if (event && event.target) {
+                event.target.classList.add('active');
+            }
         }
 
         // 1-Click Image Upload Replacer
@@ -1066,6 +1131,11 @@
             document.getElementById('inp-cta').value = "Contact us for your fantastic property deal now.";
             document.getElementById('inp-phone1').value = "+234 915 861 1048";
             document.getElementById('inp-phone2').value = "+234 912 678 1233";
+
+            document.getElementById('inp-opacity-panel').value = 100;
+            document.getElementById('inp-opacity-gallery').value = 25;
+            updatePanelOpacity(100);
+            updateGalleryOpacity(25);
 
             setThemeColor('#1b4d3e', '#2e7d64');
             document.getElementById('canvas-hero-img').src = "sample_facade.jpg";
