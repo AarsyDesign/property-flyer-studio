@@ -232,20 +232,17 @@
             cursor: pointer;
             transition: all 0.2s ease;
             position: relative;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        .drop-box:hover {
+        .drop-box:hover, .drop-box:active {
             border-color: #2e7d64;
             background: #1c2230;
         }
 
         .drop-box input[type="file"] {
-            position: absolute;
-            inset: 0;
-            opacity: 0;
-            cursor: pointer;
-            width: 100%;
-            height: 100%;
+            display: none;
         }
 
         .drop-box-title {
@@ -613,31 +610,31 @@
                 </div>
 
                 <div class="field-box">
-                    <label class="field-label">Foto Utama (Fasad Depan Rumah)</label>
-                    <div class="drop-box">
-                        <input type="file" accept="image/*" onchange="uploadImage(event, 'hero')">
-                        <div class="drop-box-title">📷 Klik untuk Ganti Foto Utama</div>
-                        <div class="drop-box-hint">JPG/PNG resolusi tinggi (Landscape/Square)</div>
+                    <label class="field-label" for="inp-file-hero">Foto Utama (Fasad Depan Rumah)</label>
+                    <div class="drop-box" onclick="document.getElementById('inp-file-hero').click()">
+                        <input type="file" id="inp-file-hero" accept="image/png, image/jpeg, image/jpg, image/webp" onchange="uploadImage(event, 'hero')">
+                        <div class="drop-box-title">📷 Klik untuk Buka Galeri HP / File</div>
+                        <div class="drop-box-hint">Pilih dari Galeri atau Kamera</div>
                     </div>
                 </div>
 
                 <div class="field-box">
                     <label class="field-label">3 Foto Fasilitas (Panel Kanan Vertikal)</label>
                     <div class="form-row-3">
-                        <div class="drop-box">
-                            <input type="file" accept="image/*" onchange="uploadImage(event, 'thumb1')">
+                        <div class="drop-box" onclick="document.getElementById('inp-file-thumb1').click()">
+                            <input type="file" id="inp-file-thumb1" accept="image/png, image/jpeg, image/jpg, image/webp" onchange="uploadImage(event, 'thumb1')">
                             <div class="drop-box-title">Foto 1</div>
-                            <div class="drop-box-hint">Kolam/Taman</div>
+                            <div class="drop-box-hint">Galeri HP</div>
                         </div>
-                        <div class="drop-box">
-                            <input type="file" accept="image/*" onchange="uploadImage(event, 'thumb2')">
+                        <div class="drop-box" onclick="document.getElementById('inp-file-thumb2').click()">
+                            <input type="file" id="inp-file-thumb2" accept="image/png, image/jpeg, image/jpg, image/webp" onchange="uploadImage(event, 'thumb2')">
                             <div class="drop-box-title">Foto 2</div>
-                            <div class="drop-box-hint">Living Room</div>
+                            <div class="drop-box-hint">Galeri HP</div>
                         </div>
-                        <div class="drop-box">
-                            <input type="file" accept="image/*" onchange="uploadImage(event, 'thumb3')">
+                        <div class="drop-box" onclick="document.getElementById('inp-file-thumb3').click()">
+                            <input type="file" id="inp-file-thumb3" accept="image/png, image/jpeg, image/jpg, image/webp" onchange="uploadImage(event, 'thumb3')">
                             <div class="drop-box-title">Foto 3</div>
-                            <div class="drop-box-hint">Kamar/Balkon</div>
+                            <div class="drop-box-hint">Galeri HP</div>
                         </div>
                     </div>
                 </div>
@@ -855,20 +852,31 @@
 
         // 1-Click Image Upload Replacer
         function uploadImage(e, slot) {
-            const file = e.target.files[0];
+            const input = e.target;
+            const file = input.files && input.files[0];
             if (!file) return;
 
             const reader = new FileReader();
             reader.onload = function(evt) {
+                const dataUrl = evt.target.result;
                 if (slot === 'hero') {
-                    document.getElementById('canvas-hero-img').src = evt.target.result;
+                    const hero = document.getElementById('canvas-hero-img');
+                    if (hero) hero.src = dataUrl;
                 } else if (slot === 'thumb1') {
-                    document.getElementById('canvas-thumb1').src = evt.target.result;
+                    const t1 = document.getElementById('canvas-thumb1');
+                    if (t1) t1.src = dataUrl;
                 } else if (slot === 'thumb2') {
-                    document.getElementById('canvas-thumb2').src = evt.target.result;
+                    const t2 = document.getElementById('canvas-thumb2');
+                    if (t2) t2.src = dataUrl;
                 } else if (slot === 'thumb3') {
-                    document.getElementById('canvas-thumb3').src = evt.target.result;
+                    const t3 = document.getElementById('canvas-thumb3');
+                    if (t3) t3.src = dataUrl;
                 }
+                // Clear input value so selecting the exact same file again also triggers onchange
+                input.value = '';
+            };
+            reader.onerror = function(err) {
+                alert('Gagal membaca file gambar: ' + err);
             };
             reader.readAsDataURL(file);
         }
