@@ -415,22 +415,24 @@
             transform-origin: top center;
         }
 
-        /* Layer 1: Visual Media Backing */
+        /* Layer 1: Visual Media Backing - Frame disesuaikan batas atas panel informasi (tinggi panel 228px, wave 24px) */
         .flyer-bg-hero {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
+            height: calc(100% - 215px); /* Frame foto berhenti tepat di bibir atas panel info */
             z-index: 1;
             overflow: hidden;
+            background: #11131a;
         }
 
         .flyer-hero-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            object-position: center;
+            object-position: center bottom; /* Default kunci batas bawah foto tepat di frame */
+            transition: transform 0.1s ease;
         }
 
         /* Sunlight Lens Flare Effect (Top Left) */
@@ -779,9 +781,16 @@
 
                 <div class="form-row-2">
                     <div class="field-box">
-                        <label class="field-label" for="inp-hero-pos-y">Posisi Vertikal Foto Rumah: <span id="label-hero-pos-y">Tengah (50%)</span></label>
-                        <input type="range" id="inp-hero-pos-y" class="field-input" min="0" max="100" value="50" oninput="updateHeroPosY(this.value)" style="accent-color: #2e7d64; padding: 4px 0; cursor: pointer;">
+                        <label class="field-label" for="inp-hero-pos-y">Posisi Vertikal Foto Rumah: <span id="label-hero-pos-y">Bawah Pas Frame (100%)</span></label>
+                        <input type="range" id="inp-hero-pos-y" class="field-input" min="0" max="100" value="100" oninput="updateHeroPosY(this.value)" style="accent-color: #2e7d64; padding: 4px 0; cursor: pointer;">
                     </div>
+                    <div class="field-box">
+                        <label class="field-label" for="inp-hero-zoom">Skala / Zoom Foto: <span id="label-hero-zoom">1.0x</span></label>
+                        <input type="range" id="inp-hero-zoom" class="field-input" min="100" max="180" value="100" oninput="updateHeroZoom(this.value)" style="accent-color: #2e7d64; padding: 4px 0; cursor: pointer;">
+                    </div>
+                </div>
+
+                <div class="form-row-2">
                     <div class="field-box">
                         <label class="field-label" for="inp-toggle-gallery">Strip 3 Foto Kanan</label>
                         <div style="display: flex; align-items: center; gap: 10px; padding-top: 6px;">
@@ -1087,6 +1096,7 @@
             }
         }
 
+        let currentHeroZoom = 1;
         function updateHeroPosY(val) {
             const heroImg = document.getElementById('canvas-hero-img');
             const label = document.getElementById('label-hero-pos-y');
@@ -1094,7 +1104,22 @@
                 heroImg.style.objectPosition = `center ${val}%`;
             }
             if (label) {
-                label.innerText = `${val}%`;
+                if (val >= 90) label.innerText = `Bawah Pas Frame (${val}%)`;
+                else if (val <= 10) label.innerText = `Atas (${val}%)`;
+                else label.innerText = `${val}%`;
+            }
+        }
+
+        function updateHeroZoom(val) {
+            const heroImg = document.getElementById('canvas-hero-img');
+            const label = document.getElementById('label-hero-zoom');
+            currentHeroZoom = parseInt(val, 10) / 100;
+            if (heroImg) {
+                heroImg.style.transform = `scale(${currentHeroZoom})`;
+                heroImg.style.transformOrigin = 'center bottom';
+            }
+            if (label) {
+                label.innerText = `${currentHeroZoom.toFixed(1)}x`;
             }
         }
 
