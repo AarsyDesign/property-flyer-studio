@@ -42,7 +42,15 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 24px 16px 80px;
+            padding: 16px 12px 100px;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        @media (min-width: 768px) {
+            body {
+                padding: 24px 20px 80px;
+            }
         }
 
         /* Top Bar Studio Control */
@@ -50,11 +58,22 @@
             width: 100%;
             max-width: 1240px;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-bottom: 20px;
-            margin-bottom: 28px;
+            flex-direction: column;
+            gap: 14px;
+            padding-bottom: 16px;
+            margin-bottom: 20px;
             border-bottom: 1px solid var(--border-subtle);
+        }
+
+        @media (min-width: 640px) {
+            .studio-navbar {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                gap: 20px;
+                padding-bottom: 20px;
+                margin-bottom: 28px;
+            }
         }
 
         .studio-brand-group {
@@ -66,6 +85,7 @@
         .studio-logo-box {
             width: 36px;
             height: 36px;
+            min-width: 36px;
             background: linear-gradient(135deg, #2e7d64 0%, #1b4d3e 100%);
             border-radius: 8px;
             display: flex;
@@ -81,33 +101,54 @@
             font-size: 16px;
             font-weight: 700;
             letter-spacing: -0.3px;
+            line-height: 1.2;
         }
 
         .studio-title-box p {
             font-size: 11px;
             color: var(--text-secondary);
             font-family: var(--font-mono);
+            line-height: 1.3;
         }
 
         .studio-actions-right {
             display: flex;
-            gap: 12px;
+            gap: 10px;
+            width: 100%;
+        }
+
+        @media (min-width: 640px) {
+            .studio-actions-right {
+                width: auto;
+            }
         }
 
         .btn-act {
             font-family: var(--font-sans);
             font-size: 13px;
             font-weight: 600;
-            padding: 9px 18px;
-            border-radius: 7px;
+            padding: 10px 14px;
+            min-height: 44px;
+            border-radius: 8px;
             cursor: pointer;
             transition: all 0.2s ease;
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
             border: 1px solid var(--border-subtle);
             background: var(--surface-card);
             color: var(--text-main);
+            flex: 1;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        @media (min-width: 640px) {
+            .btn-act {
+                flex: initial;
+                padding: 9px 18px;
+            }
         }
 
         .btn-act:hover {
@@ -131,15 +172,18 @@
         .studio-layout {
             width: 100%;
             max-width: 1240px;
-            display: grid;
-            grid-template-columns: 460px 1fr;
-            gap: 36px;
-            align-items: start;
+            display: flex;
+            flex-direction: column-reverse;
+            gap: 28px;
+            align-items: center;
         }
 
-        @media (max-width: 1024px) {
+        @media (min-width: 1025px) {
             .studio-layout {
-                grid-template-columns: 1fr;
+                display: grid;
+                grid-template-columns: 460px 1fr;
+                gap: 36px;
+                align-items: start;
             }
         }
 
@@ -148,16 +192,24 @@
             display: flex;
             flex-direction: column;
             gap: 20px;
+            width: 100%;
         }
 
         .editor-section {
             background: var(--surface-panel);
             border: 1px solid var(--border-subtle);
             border-radius: 12px;
-            padding: 22px;
+            padding: 16px;
             display: flex;
             flex-direction: column;
             gap: 16px;
+            width: 100%;
+        }
+
+        @media (min-width: 640px) {
+            .editor-section {
+                padding: 22px;
+            }
         }
 
         .section-header {
@@ -175,14 +227,26 @@
 
         .form-row-2 {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr;
             gap: 12px;
+        }
+
+        @media (min-width: 500px) {
+            .form-row-2 {
+                grid-template-columns: 1fr 1fr;
+            }
         }
 
         .form-row-3 {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-columns: 1fr;
             gap: 10px;
+        }
+
+        @media (min-width: 480px) {
+            .form-row-3 {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
         }
 
         .field-box {
@@ -201,13 +265,14 @@
 
         .field-input, .field-textarea, .field-select {
             width: 100%;
-            padding: 9px 12px;
+            padding: 12px 14px;
+            min-height: 44px;
             background: var(--bg-body);
             border: 1px solid var(--border-subtle);
-            border-radius: 6px;
+            border-radius: 8px;
             color: #ffffff;
             font-family: var(--font-sans);
-            font-size: 13px;
+            font-size: 14px;
             outline: none;
             transition: border-color 0.2s ease;
         }
@@ -226,7 +291,8 @@
         .drop-box {
             border: 1px dashed var(--border-hover);
             border-radius: 8px;
-            padding: 12px;
+            padding: 14px 12px;
+            min-height: 52px;
             text-align: center;
             background: var(--surface-card);
             cursor: pointer;
@@ -234,6 +300,10 @@
             position: relative;
             user-select: none;
             -webkit-tap-highlight-color: transparent;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         .drop-box:hover, .drop-box:active {
@@ -260,17 +330,22 @@
         /* Color Theme Picker */
         .theme-swatches {
             display: flex;
-            gap: 8px;
+            gap: 10px;
             margin-top: 4px;
+            flex-wrap: wrap;
         }
 
         .swatch {
-            width: 28px;
-            height: 28px;
-            border-radius: 6px;
+            width: 38px;
+            height: 38px;
+            min-width: 38px;
+            min-height: 38px;
+            border-radius: 8px;
             cursor: pointer;
             border: 2px solid transparent;
             transition: transform 0.15s ease;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .swatch:hover, .swatch.active {
@@ -286,30 +361,48 @@
             flex-direction: column;
             align-items: center;
             gap: 14px;
-            position: sticky;
-            top: 24px;
+            width: 100%;
+            max-width: 520px;
+        }
+
+        @media (min-width: 1025px) {
+            .preview-stage-col {
+                position: sticky;
+                top: 24px;
+            }
+        }
+
+        .flyer-preview-wrapper {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 14px;
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.6);
         }
 
         .stage-meta-info {
             width: 100%;
-            max-width: 520px;
             display: flex;
             justify-content: space-between;
             font-family: var(--font-mono);
             font-size: 11px;
             color: var(--text-muted);
+            padding: 0 4px;
         }
 
         /* The Exact Flyer: 520px width x 650px height (Exact 4:5 Aspect Ratio) */
         #flyer-printable {
             width: 520px;
             height: 650px;
+            min-width: 520px;
+            min-height: 650px;
             background: #ffffff;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.08);
             border-radius: 14px;
             user-select: none;
+            transform-origin: top center;
         }
 
         /* Layer 1: Visual Media Backing */
@@ -563,12 +656,55 @@
             letter-spacing: 0.3px;
         }
 
-        .wa-dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: #22c55e;
-            box-shadow: 0 0 6px #22c55e;
+        /* Fixed Mobile Bottom Action Bar */
+        .mobile-dock {
+            display: flex;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(17, 19, 26, 0.95);
+            backdrop-filter: blur(12px);
+            border-top: 1px solid var(--border-subtle);
+            padding: 12px 16px;
+            z-index: 100;
+            gap: 12px;
+            box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.5);
+        }
+
+        .mobile-dock .btn-dock {
+            flex: 1;
+            min-height: 48px;
+            font-size: 14px;
+            font-weight: 700;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            border: none;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .btn-dock-reset {
+            background: var(--surface-card);
+            border: 1px solid var(--border-subtle) !important;
+            color: var(--text-main);
+            max-width: 130px;
+        }
+
+        .btn-dock-export {
+            background: #ffffff;
+            color: #000000;
+            box-shadow: 0 4px 14px rgba(255, 255, 255, 0.2);
+        }
+
+        @media (min-width: 1025px) {
+            .mobile-dock {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -715,12 +851,14 @@
         <!-- Right Stage: Live Interactive 4:5 Canvas -->
         <div class="preview-stage-col">
             <div class="stage-meta-info">
-                <span>RASIO OPTIMAL: 4:5 FEED (1080 x 1350 PX)</span>
-                <span>RETINA HD READY</span>
+                <span>PREVIEW LIVE (4:5 RATIO)</span>
+                <span>1080 x 1350 PX READY</span>
             </div>
 
-            <!-- FLYER CANVAS TO PRINT -->
-            <div id="flyer-printable">
+            <!-- RESPONSIVE FLYER CONTAINER FOR MOBILE VIEWPORT -->
+            <div class="flyer-preview-wrapper" id="preview-wrapper">
+                <!-- FLYER CANVAS TO PRINT -->
+                <div id="flyer-printable">
 
                 <!-- Sunlight Flare (Top Left) -->
                 <div class="sunlight-flare"></div>
@@ -809,13 +947,47 @@
                     </div>
 
                 </div>
-
             </div>
         </div>
 
     </main>
 
+    <!-- Fixed Mobile Bottom Dock -->
+    <div class="mobile-dock">
+        <button class="btn-dock btn-dock-reset" onclick="loadSampleReference()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path><path d="M8 16H3v5"></path></svg>
+            Reset
+        </button>
+        <button class="btn-dock btn-dock-export" id="btn-export-png-mobile" onclick="exportFlyerPNG()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            Download HD (PNG)
+        </button>
+    </div>
+
     <script>
+        // Dynamic Viewport Scaling for 4:5 Flyer Canvas on Mobile Viewports
+        function adjustFlyerScale() {
+            const wrapper = document.getElementById('preview-wrapper');
+            const flyer = document.getElementById('flyer-printable');
+            if (!wrapper || !flyer) return;
+
+            const availableWidth = wrapper.clientWidth;
+            const targetWidth = 520;
+            const targetHeight = 650;
+
+            if (availableWidth < targetWidth && availableWidth > 0) {
+                const scale = availableWidth / targetWidth;
+                flyer.style.transform = `scale(${scale})`;
+                wrapper.style.height = `${targetHeight * scale}px`;
+            } else {
+                flyer.style.transform = 'none';
+                wrapper.style.height = `${targetHeight}px`;
+            }
+        }
+
+        window.addEventListener('resize', adjustFlyerScale);
+        window.addEventListener('orientationchange', adjustFlyerScale);
+
         // Synchronize Form to Canvas
         function syncFlyer() {
             document.getElementById('canvas-brand-name').innerText = document.getElementById('inp-brand').value;
@@ -906,9 +1078,17 @@
         // 1-Click Retina HD PNG Export (Instagram 4:5 Ready)
         function exportFlyerPNG() {
             const flyer = document.getElementById('flyer-printable');
-            const btn = document.getElementById('btn-export-png');
-            const oldHtml = btn.innerHTML;
-            btn.innerText = 'Mengenerate HD Image...';
+            const btnDesktop = document.getElementById('btn-export-png');
+            const btnMobile = document.getElementById('btn-export-png-mobile');
+            const oldDesktopText = btnDesktop ? btnDesktop.innerHTML : '';
+            const oldMobileText = btnMobile ? btnMobile.innerHTML : '';
+
+            if (btnDesktop) btnDesktop.innerText = 'Mengenerate HD Image...';
+            if (btnMobile) btnMobile.innerText = 'Mengenerate HD Image...';
+
+            // Reset transform temporarily during html2canvas capture so it renders full 1080x1350 resolution cleanly
+            const prevTransform = flyer.style.transform;
+            flyer.style.transform = 'none';
 
             html2canvas(flyer, {
                 scale: 3, // 3x scale: 520x650 renders to crisp 1560x1950 HD!
@@ -916,20 +1096,26 @@
                 backgroundColor: null,
                 logging: false
             }).then(canvas => {
+                flyer.style.transform = prevTransform;
                 const link = document.createElement('a');
                 const titleSlug = document.getElementById('canvas-headline').innerText.toLowerCase().replace(/[^a-z0-9]+/g, '-');
                 link.download = `flyer-${titleSlug}-${Date.now()}.png`;
                 link.href = canvas.toDataURL('image/png');
                 link.click();
-                btn.innerHTML = oldHtml;
+                if (btnDesktop) btnDesktop.innerHTML = oldDesktopText;
+                if (btnMobile) btnMobile.innerHTML = oldMobileText;
             }).catch(err => {
+                flyer.style.transform = prevTransform;
                 alert('Gagal mengekspor flyer: ' + err);
-                btn.innerHTML = oldHtml;
+                if (btnDesktop) btnDesktop.innerHTML = oldDesktopText;
+                if (btnMobile) btnMobile.innerHTML = oldMobileText;
             });
         }
 
         // Init
         syncFlyer();
+        adjustFlyerScale();
+        setTimeout(adjustFlyerScale, 150);
     </script>
 </body>
 </html>
