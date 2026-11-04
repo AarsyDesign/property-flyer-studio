@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Flyer Studio - 1-Click Replaceable Visual Template Generator</title>
+    <!-- Modern Google Fonts: Poppins & Plus Jakarta Sans + Geist Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- html2canvas for instant 1-click retina export -->
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+    <style>
+        :root {
+            --bg-body: #090a0f;
+            --surface-panel: #11131a;
+            --surface-card: #181a24;
+            --border-subtle: #232736;
+            --border-hover: #373e54;
+            --text-main: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --brand-primary: #1b4d3e; /* Forest Pine Green from reference */
+            --brand-accent: #2e7d64;
+            --font-sans: 'Poppins', 'Plus Jakarta Sans', -apple-system, sans-serif;
+            --font-mono: 'Geist Mono', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 24px 16px 80px;
+        }
+
+        /* Top Bar Studio Control */
+        .studio-navbar {
+            width: 100%;
+            max-width: 1240px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            margin-bottom: 28px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .studio-brand-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .studio-logo-box {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #2e7d64 0%, #1b4d3e 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 16px;
+            box-shadow: 0 4px 12px rgba(46, 125, 100, 0.3);
+        }
+
+        .studio-title-box h1 {
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+
+        .studio-title-box p {
+            font-size: 11px;
+            color: var(--text-secondary);
+            font-family: var(--font-mono);
+        }
+
+        .studio-actions-right {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-act {
+            font-family: var(--font-sans);
+            font-size: 13px;
+            font-weight: 600;
+            padding: 9px 18px;
+            border-radius: 7px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid var(--border-subtle);
+            background: var(--surface-card);
+            color: var(--text-main);
+        }
+
+        .btn-act:hover {
+            border-color: var(--border-hover);
+            background: #202433;
+        }
+
+        .btn-act-export {
+            background: #ffffff;
+            color: #000000;
+            border-color: #ffffff;
+            box-shadow: 0 4px 16px rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-act-export:hover {
+            background: #e2e8f0;
+            transform: translateY(-1px);
+        }
+
+        /* Studio Main Layout */
+        .studio-layout {
+            width: 100%;
+            max-width: 1240px;
+            display: grid;
+            grid-template-columns: 460px 1fr;
+            gap: 36px;
+            align-items: start;
+        }
+
+        @media (max-width: 1024px) {
+            .studio-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Left Side Editor Cards */
+        .editor-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .editor-section {
+            background: var(--surface-panel);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border-subtle);
+            padding-bottom: 10px;
+        }
+
+        .form-row-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .form-row-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+        }
+
+        .field-box {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .field-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .field-input, .field-textarea, .field-select {
+            width: 100%;
+            padding: 9px 12px;
+            background: var(--bg-body);
+            border: 1px solid var(--border-subtle);
+            border-radius: 6px;
+            color: #ffffff;
+            font-family: var(--font-sans);
+            font-size: 13px;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .field-input:focus, .field-textarea:focus, .field-select:focus {
+            border-color: #2e7d64;
+        }
+
+        /* Image Replace Slots */
+        .image-drop-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .drop-box {
+            border: 1px dashed var(--border-hover);
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            background: var(--surface-card);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .drop-box:hover {
+            border-color: #2e7d64;
+            background: #1c2230;
+        }
+
+        .drop-box input[type="file"] {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+        }
+
+        .drop-box-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 2px;
+        }
+
+        .drop-box-hint {
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+
+        /* Color Theme Picker */
+        .theme-swatches {
+            display: flex;
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        .swatch {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: transform 0.15s ease;
+        }
+
+        .swatch:hover, .swatch.active {
+            transform: scale(1.1);
+            border-color: #ffffff;
+        }
+
+        /* ------------------------------------------------------------- */
+        /* RIGHT STAGE: THE EXACT 4:5 HIGH-CONVERTING FLYER CANVAS       */
+        /* ------------------------------------------------------------- */
+        .preview-stage-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+            position: sticky;
+            top: 24px;
+        }
+
+        .stage-meta-info {
+            width: 100%;
+            max-width: 520px;
+            display: flex;
+            justify-content: space-between;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        /* The Exact Flyer: 520px width x 650px height (Exact 4:5 Aspect Ratio) */
+        #flyer-printable {
+            width: 520px;
+            height: 650px;
+            background: #ffffff;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            user-select: none;
+        }
+
+        /* Layer 1: Visual Media Backing */
+        .flyer-bg-hero {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 400px;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .flyer-hero-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        /* Sunlight Lens Flare Effect (Top Left) */
+        .sunlight-flare {
+            position: absolute;
+            top: -40px;
+            left: -40px;
+            width: 220px;
+            height: 220px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.85) 0%, rgba(255, 240, 200, 0.4) 40%, rgba(255, 255, 255, 0) 70%);
+            pointer-events: none;
+            z-index: 3;
+            mix-blend-mode: screen;
+        }
+
+        /* Top Brand Logo Overlay */
+        .flyer-brand-top {
+            position: absolute;
+            top: 20px;
+            left: 24px;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(8px);
+            padding: 6px 14px;
+            border-radius: 9999px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+        }
+
+        .brand-gem {
+            width: 18px;
+            height: 18px;
+            background: var(--brand-primary);
+            border-radius: 4px;
+            transform: rotate(45deg);
+        }
+
+        .brand-text-name {
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            color: #0f172a;
+            text-transform: uppercase;
+        }
+
+        /* Right Gallery Strip (3 Stacked Pill Thumbnails) */
+        .flyer-gallery-strip {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+            width: 110px;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            border-radius: 20px;
+            padding: 6px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+        }
+
+        .thumb-item {
+            width: 100%;
+            height: 64px;
+            border-radius: 14px;
+            overflow: hidden;
+            position: relative;
+            background: #1e293b;
+        }
+
+        .thumb-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Layer 2: Organic Wavy Bottom Panel */
+        .flyer-bottom-panel {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 310px;
+            background: var(--brand-primary);
+            z-index: 5;
+            color: #ffffff;
+            padding: 26px 24px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* SVG Curved Wave Mask */
+        .wave-curve-top {
+            position: absolute;
+            top: -46px;
+            left: 0;
+            width: 100%;
+            height: 48px;
+            fill: var(--brand-primary);
+            pointer-events: none;
+        }
+
+        /* Content inside Bottom Panel */
+        .headline-group {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            margin-top: -6px;
+        }
+
+        .prop-main-title {
+            font-size: 27px;
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -0.5px;
+            color: #ffffff;
+            text-transform: capitalize;
+        }
+
+        .prop-sub-title {
+            font-size: 13px;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.35;
+        }
+
+        /* Middle Strip: Key Figures (Price & Location in Rounded Cards) */
+        .figures-strip {
+            display: flex;
+            gap: 12px;
+            margin: 8px 0 10px;
+        }
+
+        .figure-card {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 8px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .figure-label-badge {
+            align-self: flex-start;
+            font-family: var(--font-mono);
+            font-size: 8.5px;
+            font-weight: 700;
+            background: #ffffff;
+            color: var(--brand-primary);
+            padding: 2px 6px;
+            border-radius: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        .figure-val-huge {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: #ffffff;
+        }
+
+        /* Floating Feature Capsule (3 Amenities) */
+        .amenities-capsule {
+            background: #ffffff;
+            color: #0f172a;
+            border-radius: 9999px;
+            padding: 6px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+            margin-bottom: 8px;
+        }
+
+        .amenity-unit {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 10.5px;
+            font-weight: 600;
+        }
+
+        .amenity-divider {
+            width: 1px;
+            height: 14px;
+            background: #cbd5e1;
+        }
+
+        .amenity-icon-svg {
+            width: 14px;
+            height: 14px;
+            color: var(--brand-primary);
+        }
+
+        /* Footer Strip: Action Call & Phone Numbers */
+        .flyer-footer-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-top: 1px solid rgba(255, 255, 255, 0.18);
+            padding-top: 10px;
+        }
+
+        .cta-call-text {
+            font-size: 10.5px;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 220px;
+            line-height: 1.3;
+        }
+
+        .contact-phone-block {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 2px;
+        }
+
+        .phone-entry {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-family: var(--font-sans);
+            font-size: 12px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 0.3px;
+        }
+
+        .wa-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #22c55e;
+            box-shadow: 0 0 6px #22c55e;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Studio Header -->
+    <header class="studio-navbar">
+        <div class="studio-brand-group">
+            <div class="studio-logo-box">R</div>
+            <div class="studio-title-box">
+                <h1>Property Flyer Studio</h1>
+                <p>1-Click Replaceable Visual Template Generator (IG/FB 4:5 Feed)</p>
+            </div>
+        </div>
+
+        <div class="studio-actions-right">
+            <button class="btn-act" onclick="loadSampleReference()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path><path d="M8 16H3v5"></path></svg>
+                Reset Desain Contoh
+            </button>
+            <button class="btn-act btn-act-export" id="btn-export-png" onclick="exportFlyerPNG()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                Download Flyer HD (PNG)
+            </button>
+        </div>
+    </header>
+
+    <!-- Studio Layout -->
+    <main class="studio-layout">
+
+        <!-- Left Form Control Panel -->
+        <div class="editor-container">
+
+            <!-- 1. Ganti Foto Cepat (1-Click Image Replacer) -->
+            <div class="editor-section">
+                <div class="section-header">
+                    <span>1. Ganti Foto Properti (Klik / Upload)</span>
+                    <span style="font-size: 10px; color: #22c55e;">Siap Pakai</span>
+                </div>
+
+                <div class="field-box">
+                    <label class="field-label">Foto Utama (Fasad Depan Rumah)</label>
+                    <div class="drop-box">
+                        <input type="file" accept="image/*" onchange="uploadImage(event, 'hero')">
+                        <div class="drop-box-title">📷 Klik untuk Ganti Foto Utama</div>
+                        <div class="drop-box-hint">JPG/PNG resolusi tinggi (Landscape/Square)</div>
+                    </div>
+                </div>
+
+                <div class="field-box">
+                    <label class="field-label">3 Foto Fasilitas (Panel Kanan Vertikal)</label>
+                    <div class="form-row-3">
+                        <div class="drop-box">
+                            <input type="file" accept="image/*" onchange="uploadImage(event, 'thumb1')">
+                            <div class="drop-box-title">Foto 1</div>
+                            <div class="drop-box-hint">Kolam/Taman</div>
+                        </div>
+                        <div class="drop-box">
+                            <input type="file" accept="image/*" onchange="uploadImage(event, 'thumb2')">
+                            <div class="drop-box-title">Foto 2</div>
+                            <div class="drop-box-hint">Living Room</div>
+                        </div>
+                        <div class="drop-box">
+                            <input type="file" accept="image/*" onchange="uploadImage(event, 'thumb3')">
+                            <div class="drop-box-title">Foto 3</div>
+                            <div class="drop-box-hint">Kamar/Balkon</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Edit Tulisan & Penawaran -->
+            <div class="editor-section">
+                <div class="section-header">
+                    <span>2. Informasi & Teks Penawaran</span>
+                </div>
+
+                <div class="form-row-2">
+                    <div class="field-box">
+                        <label class="field-label">Nama Brand / Agensi</label>
+                        <input type="text" id="inp-brand" class="field-input" value="RUMAH TANAH OFFICIAL" oninput="syncFlyer()">
+                    </div>
+                    <div class="field-box">
+                        <label class="field-label">Warna Tema Panel Bawah</label>
+                        <div class="theme-swatches">
+                            <div class="swatch active" style="background: #1b4d3e;" title="Pine Green" onclick="setThemeColor('#1b4d3e', '#2e7d64')"></div>
+                            <div class="swatch" style="background: #0f172a;" title="Slate Navy" onclick="setThemeColor('#0f172a', '#1e293b')"></div>
+                            <div class="swatch" style="background: #831843;" title="Wine Crimson" onclick="setThemeColor('#831843', '#9d174d')"></div>
+                            <div class="swatch" style="background: #1e1e1e;" title="Vercel Obsidian" onclick="setThemeColor('#141414', '#262626')"></div>
+                            <div class="swatch" style="background: #78350f;" title="Warm Bronze" onclick="setThemeColor('#78350f', '#92400e')"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field-box">
+                    <label class="field-label">Headline Utama (Kamar / Tipe Properti)</label>
+                    <input type="text" id="inp-headline" class="field-input" value="5 Bedroom Detached Duplex" oninput="syncFlyer()">
+                </div>
+
+                <div class="field-box">
+                    <label class="field-label">Sub-Headline (Fasilitas Utama / Deskripsi Ringkas)</label>
+                    <input type="text" id="inp-subheadline" class="field-input" value="With Private Swimming Pool and Paviliun BQ." oninput="syncFlyer()">
+                </div>
+
+                <div class="form-row-2">
+                    <div class="field-box">
+                        <label class="field-label">Harga Properti</label>
+                        <input type="text" id="inp-price" class="field-input" value="Rp 2,8 Miliar" oninput="syncFlyer()">
+                    </div>
+                    <div class="field-box">
+                        <label class="field-label">Lokasi / Wilayah</label>
+                        <input type="text" id="inp-location" class="field-input" value="PONTIANAK KOTA" oninput="syncFlyer()">
+                    </div>
+                </div>
+
+                <div class="field-box">
+                    <label class="field-label">3 Fitur Utama (Capsule Bar)</label>
+                    <div class="form-row-3">
+                        <input type="text" id="inp-feat1" class="field-input" value="Keamanan 24 Jam" oninput="syncFlyer()">
+                        <input type="text" id="inp-feat2" class="field-input" value="Air Bersih PDAM" oninput="syncFlyer()">
+                        <input type="text" id="inp-feat3" class="field-input" value="Jalan Lebar Paving" oninput="syncFlyer()">
+                    </div>
+                </div>
+
+                <div class="field-box">
+                    <label class="field-label">Kalimat Call to Action (CTA)</label>
+                    <input type="text" id="inp-cta" class="field-input" value="Hubungi kami untuk survei lokasi dan negosiasi unit terbaik sekarang." oninput="syncFlyer()">
+                </div>
+
+                <div class="form-row-2">
+                    <div class="field-box">
+                        <label class="field-label">WhatsApp Agen 1</label>
+                        <input type="text" id="inp-phone1" class="field-input" value="+62 851-6877-4743" oninput="syncFlyer()">
+                    </div>
+                    <div class="field-box">
+                        <label class="field-label">WhatsApp Agen 2 / Kantor</label>
+                        <input type="text" id="inp-phone2" class="field-input" value="+62 812-5742-931" oninput="syncFlyer()">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Right Stage: Live Interactive 4:5 Canvas -->
+        <div class="preview-stage-col">
+            <div class="stage-meta-info">
+                <span>RASIO OPTIMAL: 4:5 FEED (1080 x 1350 PX)</span>
+                <span>RETINA HD READY</span>
+            </div>
+
+            <!-- FLYER CANVAS TO PRINT -->
+            <div id="flyer-printable">
+
+                <!-- Sunlight Flare (Top Left) -->
+                <div class="sunlight-flare"></div>
+
+                <!-- Brand Logo Top -->
+                <div class="flyer-brand-top">
+                    <div class="brand-gem" id="canvas-gem"></div>
+                    <span class="brand-text-name" id="canvas-brand-name">RUMAH TANAH OFFICIAL</span>
+                </div>
+
+                <!-- Main Hero Photo -->
+                <div class="flyer-bg-hero">
+                    <img id="canvas-hero-img" class="flyer-hero-img" src="sample_facade.jpg" alt="Foto Properti">
+                </div>
+
+                <!-- Right Stacked 3 Gallery Pill -->
+                <div class="flyer-gallery-strip">
+                    <div class="thumb-item">
+                        <img id="canvas-thumb1" class="thumb-img" src="sample_thumb1.jpg" alt="Thumb 1">
+                    </div>
+                    <div class="thumb-item">
+                        <img id="canvas-thumb2" class="thumb-img" src="sample_thumb2.jpg" alt="Thumb 2">
+                    </div>
+                    <div class="thumb-item">
+                        <img id="canvas-thumb3" class="thumb-img" src="sample_thumb3.jpg" alt="Thumb 3">
+                    </div>
+                </div>
+
+                <!-- Organic Wave Bottom Panel -->
+                <div class="flyer-bottom-panel" id="canvas-bottom-panel">
+
+                    <!-- Smooth Curved SVG Wave -->
+                    <svg class="wave-curve-top" viewBox="0 0 520 48" preserveAspectRatio="none">
+                        <path id="canvas-wave-path" d="M0,28 C120,4 280,48 520,18 L520,48 L0,48 Z"></path>
+                    </svg>
+
+                    <!-- Headline Group -->
+                    <div class="headline-group">
+                        <h2 class="prop-main-title" id="canvas-headline">5 Bedroom Detached Duplex</h2>
+                        <p class="prop-sub-title" id="canvas-subheadline">With Private Swimming Pool and Paviliun BQ.</p>
+                    </div>
+
+                    <!-- Price & Location Boxes -->
+                    <div class="figures-strip">
+                        <div class="figure-card">
+                            <span class="figure-label-badge" id="canvas-badge-price">HARGA:</span>
+                            <span class="figure-val-huge" id="canvas-price">Rp 2,8 Miliar</span>
+                        </div>
+                        <div class="figure-card">
+                            <span class="figure-label-badge" id="canvas-badge-loc">LOKASI:</span>
+                            <span class="figure-val-huge" id="canvas-location">PONTIANAK KOTA</span>
+                        </div>
+                    </div>
+
+                    <!-- Amenities Capsule Bar -->
+                    <div class="amenities-capsule">
+                        <div class="amenity-unit">
+                            <svg class="amenity-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                            <span id="canvas-feat1">Keamanan 24 Jam</span>
+                        </div>
+                        <div class="amenity-divider"></div>
+                        <div class="amenity-unit">
+                            <svg class="amenity-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg>
+                            <span id="canvas-feat2">Air Bersih PDAM</span>
+                        </div>
+                        <div class="amenity-divider"></div>
+                        <div class="amenity-unit">
+                            <svg class="amenity-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                            <span id="canvas-feat3">Jalan Lebar Paving</span>
+                        </div>
+                    </div>
+
+                    <!-- Footer Action Row -->
+                    <div class="flyer-footer-row">
+                        <p class="cta-call-text" id="canvas-cta">Hubungi kami untuk survei lokasi dan negosiasi unit terbaik sekarang.</p>
+                        <div class="contact-phone-block">
+                            <div class="phone-entry">
+                                <span class="wa-dot"></span>
+                                <span id="canvas-phone1">+62 851-6877-4743</span>
+                            </div>
+                            <div class="phone-entry">
+                                <span class="wa-dot"></span>
+                                <span id="canvas-phone2">+62 812-5742-931</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // Synchronize Form to Canvas
+        function syncFlyer() {
+            document.getElementById('canvas-brand-name').innerText = document.getElementById('inp-brand').value;
+            document.getElementById('canvas-headline').innerText = document.getElementById('inp-headline').value;
+            document.getElementById('canvas-subheadline').innerText = document.getElementById('inp-subheadline').value;
+            document.getElementById('canvas-price').innerText = document.getElementById('inp-price').value;
+            document.getElementById('canvas-location').innerText = document.getElementById('inp-location').value;
+            document.getElementById('canvas-feat1').innerText = document.getElementById('inp-feat1').value;
+            document.getElementById('canvas-feat2').innerText = document.getElementById('inp-feat2').value;
+            document.getElementById('canvas-feat3').innerText = document.getElementById('inp-feat3').value;
+            document.getElementById('canvas-cta').innerText = document.getElementById('inp-cta').value;
+            document.getElementById('canvas-phone1').innerText = document.getElementById('inp-phone1').value;
+            document.getElementById('canvas-phone2').innerText = document.getElementById('inp-phone2').value;
+        }
+
+        // Color Theme Changer
+        function setThemeColor(primaryHex, accentHex) {
+            document.documentElement.style.setProperty('--brand-primary', primaryHex);
+            document.documentElement.style.setProperty('--brand-accent', accentHex);
+            document.getElementById('canvas-bottom-panel').style.background = primaryHex;
+            document.getElementById('canvas-wave-path').setAttribute('fill', primaryHex);
+            document.getElementById('canvas-gem').style.background = primaryHex;
+            document.getElementById('canvas-badge-price').style.color = primaryHex;
+            document.getElementById('canvas-badge-loc').style.color = primaryHex;
+            
+            document.querySelectorAll('.amenity-icon-svg').forEach(icon => {
+                icon.style.color = primaryHex;
+            });
+
+            // Update active swatch
+            document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        // 1-Click Image Upload Replacer
+        function uploadImage(e, slot) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                if (slot === 'hero') {
+                    document.getElementById('canvas-hero-img').src = evt.target.result;
+                } else if (slot === 'thumb1') {
+                    document.getElementById('canvas-thumb1').src = evt.target.result;
+                } else if (slot === 'thumb2') {
+                    document.getElementById('canvas-thumb2').src = evt.target.result;
+                } else if (slot === 'thumb3') {
+                    document.getElementById('canvas-thumb3').src = evt.target.result;
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Reset to Initial Sample Reference
+        function loadSampleReference() {
+            document.getElementById('inp-brand').value = "PETAL REALTY";
+            document.getElementById('inp-headline').value = "5 Bedroom";
+            document.getElementById('inp-subheadline').value = "Detached duplex with swimming pool and BQ.";
+            document.getElementById('inp-price').value = "₦300M";
+            document.getElementById('inp-location').value = "AJAH";
+            document.getElementById('inp-feat1').value = "24-Hour Security";
+            document.getElementById('inp-feat2').value = "Reliable Water";
+            document.getElementById('inp-feat3').value = "Well-paved Roads";
+            document.getElementById('inp-cta').value = "Contact us for your fantastic property deal now.";
+            document.getElementById('inp-phone1').value = "+234 915 861 1048";
+            document.getElementById('inp-phone2').value = "+234 912 678 1233";
+
+            setThemeColor('#1b4d3e', '#2e7d64');
+            document.getElementById('canvas-hero-img').src = "sample_facade.jpg";
+            document.getElementById('canvas-thumb1').src = "sample_thumb1.jpg";
+            document.getElementById('canvas-thumb2').src = "sample_thumb2.jpg";
+            document.getElementById('canvas-thumb3').src = "sample_thumb3.jpg";
+            syncFlyer();
+        }
+
+        // 1-Click Retina HD PNG Export (Instagram 4:5 Ready)
+        function exportFlyerPNG() {
+            const flyer = document.getElementById('flyer-printable');
+            const btn = document.getElementById('btn-export-png');
+            const oldHtml = btn.innerHTML;
+            btn.innerText = 'Mengenerate HD Image...';
+
+            html2canvas(flyer, {
+                scale: 3, // 3x scale: 520x650 renders to crisp 1560x1950 HD!
+                useCORS: true,
+                backgroundColor: null,
+                logging: false
+            }).then(canvas => {
+                const link = document.createElement('a');
+                const titleSlug = document.getElementById('canvas-headline').innerText.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+                link.download = `flyer-${titleSlug}-${Date.now()}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                btn.innerHTML = oldHtml;
+            }).catch(err => {
+                alert('Gagal mengekspor flyer: ' + err);
+                btn.innerHTML = oldHtml;
+            });
+        }
+
+        // Init
+        syncFlyer();
+    </script>
+</body>
+</html>
