@@ -511,43 +511,56 @@
             object-fit: cover;
         }
 
-        /* Layer 2: Organic Wavy Bottom Panel */
+        /* Layer 2: Sleek Bottom Card */
         .flyer-bottom-panel {
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 310px;
+            height: 228px;
             background: var(--brand-primary);
             z-index: 5;
             color: #ffffff;
-            padding: 26px 24px 20px;
+            padding: 16px 22px 14px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            box-shadow: 0 -12px 30px rgba(0, 0, 0, 0.25);
+        }
+
+        /* Gradient Shade to blend cleanly into the photo */
+        .panel-gradient-backdrop {
+            position: absolute;
+            top: -55px;
+            left: 0;
+            width: 100%;
+            height: 56px;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.55) 100%);
+            pointer-events: none;
         }
 
         /* SVG Curved Wave Mask */
         .wave-curve-top {
             position: absolute;
-            top: -46px;
+            top: -24px;
             left: 0;
             width: 100%;
-            height: 48px;
+            height: 26px;
             fill: var(--brand-primary);
             pointer-events: none;
+            filter: drop-shadow(0 -3px 6px rgba(0, 0, 0, 0.15));
         }
 
         /* Content inside Bottom Panel */
         .headline-group {
             display: flex;
             flex-direction: column;
-            gap: 2px;
-            margin-top: -6px;
+            gap: 1px;
+            margin-top: -2px;
         }
 
         .prop-main-title {
-            font-size: 27px;
+            font-size: 23px;
             font-weight: 800;
             line-height: 1.15;
             letter-spacing: -0.5px;
@@ -556,46 +569,46 @@
         }
 
         .prop-sub-title {
-            font-size: 13px;
+            font-size: 11.5px;
             font-weight: 400;
-            color: rgba(255, 255, 255, 0.85);
-            line-height: 1.35;
+            color: rgba(255, 255, 255, 0.88);
+            line-height: 1.3;
         }
 
         /* Middle Strip: Key Figures (Price & Location in Rounded Cards) */
         .figures-strip {
             display: flex;
-            gap: 12px;
-            margin: 8px 0 10px;
+            gap: 10px;
+            margin: 4px 0 6px;
         }
 
         .figure-card {
             flex: 1;
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            padding: 8px 14px;
+            border-radius: 8px;
+            padding: 5px 12px;
             display: flex;
             flex-direction: column;
-            gap: 2px;
+            gap: 1px;
         }
 
         .figure-label-badge {
             align-self: flex-start;
             font-family: var(--font-mono);
-            font-size: 8.5px;
+            font-size: 8px;
             font-weight: 700;
             background: #ffffff;
             color: var(--brand-primary);
-            padding: 2px 6px;
-            border-radius: 4px;
+            padding: 1px 5px;
+            border-radius: 3px;
             letter-spacing: 0.5px;
         }
 
         .figure-val-huge {
-            font-size: 20px;
+            font-size: 17px;
             font-weight: 800;
-            letter-spacing: -0.5px;
+            letter-spacing: -0.4px;
             color: #ffffff;
         }
 
@@ -604,31 +617,31 @@
             background: #ffffff;
             color: #0f172a;
             border-radius: 9999px;
-            padding: 6px 14px;
+            padding: 5px 12px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-            margin-bottom: 8px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+            margin-bottom: 5px;
         }
 
         .amenity-unit {
             display: flex;
             align-items: center;
-            gap: 6px;
-            font-size: 10.5px;
+            gap: 5px;
+            font-size: 9.5px;
             font-weight: 600;
         }
 
         .amenity-divider {
             width: 1px;
-            height: 14px;
+            height: 12px;
             background: #cbd5e1;
         }
 
         .amenity-icon-svg {
-            width: 14px;
-            height: 14px;
+            width: 13px;
+            height: 13px;
             color: var(--brand-primary);
         }
 
@@ -638,14 +651,14 @@
             justify-content: space-between;
             align-items: flex-end;
             border-top: 1px solid rgba(255, 255, 255, 0.18);
-            padding-top: 10px;
+            padding-top: 6px;
         }
 
         .cta-call-text {
-            font-size: 10.5px;
+            font-size: 9.5px;
             color: rgba(255, 255, 255, 0.9);
             max-width: 220px;
-            line-height: 1.3;
+            line-height: 1.25;
         }
 
         .contact-phone-block {
@@ -762,6 +775,22 @@
                         <div class="drop-box-title">📷 Sentuh untuk Buka Galeri HP / File</div>
                         <div class="drop-box-hint">Pilih dari Galeri atau Kamera</div>
                     </label>
+                </div>
+
+                <div class="form-row-2">
+                    <div class="field-box">
+                        <label class="field-label" for="inp-hero-pos-y">Posisi Vertikal Foto Rumah: <span id="label-hero-pos-y">Tengah (50%)</span></label>
+                        <input type="range" id="inp-hero-pos-y" class="field-input" min="0" max="100" value="50" oninput="updateHeroPosY(this.value)" style="accent-color: #2e7d64; padding: 4px 0; cursor: pointer;">
+                    </div>
+                    <div class="field-box">
+                        <label class="field-label" for="inp-toggle-gallery">Strip 3 Foto Kanan</label>
+                        <div style="display: flex; align-items: center; gap: 10px; padding-top: 6px;">
+                            <label style="display: inline-flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer; color: var(--text-main);">
+                                <input type="checkbox" id="inp-toggle-gallery" checked onchange="toggleGalleryStrip(this.checked)" style="width: 18px; height: 18px; accent-color: #2e7d64;">
+                                Tampilkan Foto Tambahan
+                            </label>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="field-box">
@@ -911,9 +940,12 @@
                 <!-- Organic Wave Bottom Panel -->
                 <div class="flyer-bottom-panel" id="canvas-bottom-panel">
 
-                    <!-- Smooth Curved SVG Wave -->
-                    <svg class="wave-curve-top" viewBox="0 0 520 48" preserveAspectRatio="none">
-                        <path id="canvas-wave-path" d="M0,28 C120,4 280,48 520,18 L520,48 L0,48 Z"></path>
+                    <!-- Gradient Fade Backdrop to soften blend into photo -->
+                    <div class="panel-gradient-backdrop"></div>
+
+                    <!-- Smooth Curved SVG Wave (subtle, 24px) -->
+                    <svg class="wave-curve-top" viewBox="0 0 520 26" preserveAspectRatio="none">
+                        <path id="canvas-wave-path" d="M0,14 C140,2 340,24 520,8 L520,26 L0,26 Z"></path>
                     </svg>
 
                     <!-- Headline Group -->
@@ -1052,6 +1084,24 @@
             }
             if (wave) {
                 wave.setAttribute('fill', `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${alpha})`);
+            }
+        }
+
+        function updateHeroPosY(val) {
+            const heroImg = document.getElementById('canvas-hero-img');
+            const label = document.getElementById('label-hero-pos-y');
+            if (heroImg) {
+                heroImg.style.objectPosition = `center ${val}%`;
+            }
+            if (label) {
+                label.innerText = `${val}%`;
+            }
+        }
+
+        function toggleGalleryStrip(show) {
+            const strip = document.querySelector('.flyer-gallery-strip');
+            if (strip) {
+                strip.style.display = show ? 'flex' : 'none';
             }
         }
 
